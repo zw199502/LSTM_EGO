@@ -5,8 +5,6 @@ import torch.nn.functional as F
 
 
 print(torch.cuda.is_available(), torch.backends.cudnn.enabled)
-# Implementation of Twin Delayed Deep Deterministic Policy Gradients (TD3)
-# Paper: https://arxiv.org/abs/1802.09477
 
 
 class Actor(nn.Module):
