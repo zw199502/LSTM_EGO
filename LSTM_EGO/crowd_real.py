@@ -19,8 +19,8 @@ class CrowdSim:
         self.only_dynamic = args.only_dynamic
         self.n_laser = args.lidar_dim
         self.laser_angle_resolute = args.laser_angle_resolute
-        self.laser_min_range = args.laser_min_range
-        self.laser_max_range = args.laser_max_range
+        self.laser_min_range = 0.25
+        self.laser_max_range = 4.0
         self.square_width = args.square_width
         self.human_policy_name = 'orca' # human policy is fixed orca policy
         
@@ -40,8 +40,8 @@ class CrowdSim:
         self.time_step = 0.2
         self.randomize_attributes = False
         self.success_reward = 1.0
-        self.collision_penalty = -0.3
-        self.discomfort_dist = 0.1
+        self.collision_penalty = -0.4
+        self.discomfort_dist = 0.2
         self.discomfort_penalty_factor = 0.5
         self.goal_distance_factor = 0.3
        
@@ -353,7 +353,7 @@ class CrowdSim:
         # collision detection between the robot and humans
         collision = False
         dmin = (self.scan_current * self.laser_max_range).min()
-        if dmin <= 0.3:
+        if dmin <= 0.26:
             collision = True
 
         reward = 0
