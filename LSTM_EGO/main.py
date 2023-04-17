@@ -80,7 +80,7 @@ def main():
     # device
     parser.add_argument("--device", type=str, default='cuda:0')
     # OpenAI gym environment name
-    parser.add_argument("--env", default="crowd_real")
+    parser.add_argument("--env", default="crowd_real_all_circles")
     # Sets Gym, PyTorch and Numpy seeds
     parser.add_argument("--seed", default=0, type=int)
     # Time steps initial random policy is used
@@ -114,6 +114,9 @@ def main():
     # Model load file name, "" doesn't load, "default" uses file_name
     parser.add_argument("--load_model", type=str, default="")
 
+    # most simple environment
+    # parser.add_argument("--load_model", type=str, default="/models/step_925000success_100")
+
     # environments mixing static and dynamic obstacles, 500 tests, 0.896 success rate
     # parser.add_argument("--load_model", type=str, default="/models/step_345000success_96")
     # environments only having dynamic obstacles, 500 tests, 0.89 success rate
@@ -125,6 +128,7 @@ def main():
     parser.add_argument("--action_dim", type=int, default=2)
     parser.add_argument("--lidar_dim", type=int, default=1800)
     parser.add_argument("--lidar_feature_dim", type=int, default=50)
+    
     parser.add_argument("--goal_position_dim", type=int, default=2)
     parser.add_argument("--laser_angle_resolute", type=float, default=0.003490659)
     parser.add_argument("--laser_min_range", type=float, default=0.27)
@@ -142,15 +146,16 @@ def main():
         from crowd_sim_complex import CrowdSim
     elif args.env == 'crowd_real':
         from crowd_real import CrowdSim
+    elif args.env == 'crowd_real_all_circles':
+        from crowd_real_all_circles import CrowdSim
     else:
         raise NotImplementedError(args.env)
 
     # file_prefix = '/home/zw/expand_disk/ubuntu/RNN_RL/' + args.policy + '/' + args.env + '/seed_' + str(args.seed) + '_only_dynamic'
     # file_prefix = '/home/zw/expand_disk/ubuntu/RNN_RL/' + args.policy + '/' + args.env + '/seed_' + str(args.seed)
+    file_prefix = './logdir'   # choose your own log directory
     # server logdir
     # file_prefix = '/mnt/ssd1/zhuwei/RNN_RL/' + args.policy + '/' + args.env + '/seed_' + str(args.seed)
-    # old PC
-    file_prefix = './' + args.policy + '/' + args.env + '/seed_' + str(args.seed) + '_only_dynamic'
 
     if not os.path.exists(file_prefix + '/results'):
         os.makedirs(file_prefix + '/results')
@@ -171,7 +176,12 @@ def main():
     random.seed(args.seed)
 
     lidar_state_dim = args.lidar_dim
-    position_state_dim = args.goal_position_dim
+    # default is 2, please change it to 4 when using action as observation
+    if args.env == 'crowd_real_all_circles':
+        position_state_dim = args.goal_position_dim * 2
+    else:
+        position_state_dim = args.goal_position_dim
+    
     lidar_feature_dim = args.lidar_feature_dim
     action_dim = args.action_dim
     max_action = 1.0
@@ -287,7 +297,7 @@ def main():
             print('success_rate, collision_rate, avg_nav_time at step ' + str(t))
             print(success_rate, collision_rate, avg_nav_time)
             evaluations.append(success_rate)
-            if args.save_model and success_rate > 0.90:
+            if args.save_model and success_rate > 0.80:
                 policy.save(file_prefix + '/models' + file_name)
             np.save(file_prefix + '/results' + file_name, evaluations)
     print('final test')
