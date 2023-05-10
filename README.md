@@ -1,5 +1,5 @@
 # LSTM_EGO
-Learn to navigate in dynamic environments with normalized LiDAR scans, [video](https://youtu.be/sGKk0_fSDGM)
+Learn to navigate in dynamic environments with normalized LiDAR scans, [video](https://youtu.be/Eiyp8V8EjWo)
 
 # Configuration
 - DRL structure is based on the open-source solution from https://github.com/AntoineTheb/RNN-RL
