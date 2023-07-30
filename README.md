@@ -5,6 +5,8 @@ Learn to navigate in dynamic environments with normalized LiDAR scans, [video](h
 - DRL structure is based on the open-source solution from https://github.com/AntoineTheb/RNN-RL
 - Pytorch
 - Cython
+- [RVO2](https://github.com/rebuttal-anonymous/Python-RVO2)
+- [socialforce](https://github.com/yuxiang-gao/PySocialForce)
 - ubuntu 20.04, ros-noetic
 
 # Compile LiDAR scan library
