@@ -25,3 +25,5 @@ In main.py, ```parser.add_argument("--env", default="crowd_real_all_circles")```
 - source devel/setup.bash
 - roslaunch aloam_velodyne adaptive_clustering.launch
 - please define the detection area in adaptive_clustering.cpp, line 120
+
+# drl_vo is a supplementary baseline, please refer to this [link](https://github.com/TempleRAIL/drl_vo_nav)
